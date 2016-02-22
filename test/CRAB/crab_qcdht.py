@@ -8,7 +8,7 @@ from httplib import HTTPException
 config = config()
 
 name = 'RunIIFall15MiniAODv2-PU25nsData2015v1_B2GAnaFW_'
-version = 'v7.6.x_v1.0'
+version = 'v76x_v1p0'
 
 config.General.requestName = ''
 config.General.workArea = 'crab_projects'
