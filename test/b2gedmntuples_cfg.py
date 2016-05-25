@@ -25,10 +25,7 @@ import copy
 options = opts.VarParsing ('analysis')
 
 options.register('sample',
-    '/store/mc/RunIIFall15MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/70000/002ABFCA-A0B9-E511-B9BA-0CC47A57CD6A.root', 
-     #'/store/mc/RunIIFall15MiniAODv2/QCD_Pt_600to800_TuneCUETP8M1_13TeV_pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/10000/029802B3-83B8-E511-A002-0025905C22AE.root',
-     #'/store/mc/RunIIFall15MiniAODv2/TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/002253C9-DFB8-E511-8B0A-001A648F1C42.root',
-		 #'/store/data/Run2015D/JetHT/MINIAOD/16Dec2015-v1/00000/3085A2EF-6BB0-E511-87ED-0CC47A4D75EE.root',
+		'/store/data/Run2016B/JetHT/MINIAOD/PromptReco-v2/000/273/158/00000/1E4ABD0D-DA19-E611-9396-02163E014258.root',
      opts.VarParsing.multiplicity.singleton,
      opts.VarParsing.varType.string,
      'Sample to analyze')
@@ -92,8 +89,10 @@ else:
     options.globalTag="76X_mcRun2_asymptotic_v12"
   elif options.DataProcessing=="Data25ns_76X":
     options.globalTag="76X_dataRun2_v15"
+  elif options.DataProcessing=="Data25ns_80X":
+    options.globalTag="80X_dataRun2_Prompt_v8"
   else:
-    sys.exit("!!!!ERROR: Enter 'DataProcessing' period. Options are: 'MC25ns_MiniAOD_76X', 'Data25ns_76X', 'MC25ns_MiniAODv2_FastSim'.\n")
+    sys.exit("!!!!ERROR: Enter 'DataProcessing' period. Options are: 'MC25ns_MiniAOD_76X', 'Data25ns_76X', 'Data25ns_80X', 'MC25ns_MiniAODv2_FastSim'.\n")
 
 ###inputTag labels
 rhoLabel          	= "fixedGridRhoFastjetAll"
@@ -118,7 +117,7 @@ hltMuonFilterLabel     	= "hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f40QL3crIsoRhoFilt
 hltPathLabel           	= "HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
 hltElectronFilterLabel 	= "hltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8"
 
-if(options.DataProcessing in [ "Data25ns_PromptRecov4","Data25ns_ReReco", "Data25ns_76X" ]): metProcess = "RECO"
+if(options.DataProcessing in [ "Data25ns_PromptRecov4","Data25ns_ReReco", "Data25ns_76X", 'Data25ns_80X' ]): metProcess = "RECO"
 else: metProcess = "PAT"
 
 print "\nRunning with DataProcessing option ", options.DataProcessing, " and with global tag", options.globalTag, "\n" 
@@ -162,7 +161,7 @@ if ("Data" in options.DataProcessing and options.forceResiduals): corrections.ex
 
 if options.usePrivateSQLite:
     
-    from CondCore.DBCommon.CondDBSetup_cfi import *
+    from CondCore.CondDB.CondDB_cfi import *
     import os
     if "Data" in options.DataProcessing: era = "Fall15_25nsV2_DATA"
     elif "MC" in options.DataProcessing: era = "Fall15_25nsV2_MC"
@@ -170,7 +169,7 @@ if options.usePrivateSQLite:
     ###>>>  era = "Summer15_25nsV7_DATA"
     ###>>>elif "MC25ns" in options.DataProcessing:
     ###>>>  era = "Summer15_25nsV7_MC"
-    else: sys.exit("!!!!ERROR: Enter 'DataProcessing' period. Options are: 'MC25ns_MiniAOD_76X', 'Data25ns_76X', 'MC25ns_MiniAODv2_FastSim'.\n")
+    else: sys.exit("!!!!ERROR: Enter 'DataProcessing' period. Options are: 'MC25ns_MiniAOD_76X', 'Data25ns_76X', 'Data25ns_80X', 'MC25ns_MiniAODv2_FastSim'.\n")
 
     dBFile = era+".db"
     print "\nUsing private SQLite file", dBFile, "\n"
